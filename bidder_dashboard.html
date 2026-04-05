@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bidder Dashboard - Springfield High School</title>
+    <link rel="icon" href="images/school-logo.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .bd-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 28px;
+            background: rgba(10, 8, 30, 0.85);
+            border-bottom: 1px solid rgba(99,102,241,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+        .bd-header-left { display: flex; flex-direction: column; gap: 2px; }
+        .bd-live { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--cyan); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+        .bd-title { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 700; color: #fff; }
+        .bd-subtitle { font-size: 12px; color: var(--t3); }
+
+        .bd-body { max-width: 900px; margin: 0 auto; padding: 30px 20px 60px; }
+
+        .bd-hero { text-align: center; margin-bottom: 28px; }
+        .bd-hero h2 { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 20px; }
+
+        .bd-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+        .bd-stat-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .bd-stat-icon { font-size: 28px; }
+        .bd-stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800; color: #fff; line-height: 1; }
+        .bd-stat-label { font-size: 11px; color: var(--t3); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+        .bd-voters-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px;
+            padding: 18px 22px;
+            margin-bottom: 20px;
+        }
+        .bd-voters-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .bd-voters-title { font-size: 14px; font-weight: 600; color: var(--t1); }
+        .bd-voters-badge { font-size: 11px; font-weight: 700; color: var(--purple); background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); padding: 2px 10px; border-radius: 20px; }
+        .bd-voter-list { display: flex; flex-direction: column; gap: 10px; }
+        .bd-voter-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); }
+        .bd-voter-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--violet)); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+        .bd-voter-role { font-size: 11px; color: var(--t3); text-transform: uppercase; letter-spacing: 0.8px; }
+        .bd-voter-addr { font-size: 12px; color: var(--cyan); font-family: 'Space Grotesk', monospace; }
+
+        .bd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        .bd-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .bd-card-title { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--t1); margin-bottom: 16px; }
+
+        /* Pie chart */
+        .bd-pie-wrap { display: flex; align-items: center; gap: 20px; }
+        .bd-pie-svg { width: 110px; height: 110px; flex-shrink: 0; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)); }
+        .bd-legend { display: flex; flex-direction: column; gap: 8px; }
+        .bd-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--t2); }
+        .bd-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+
+        /* Place bid */
+        .bd-bid-desc { font-size: 12px; color: var(--t3); margin-bottom: 14px; line-height: 1.6; }
+        .bd-input {
+            width: 100%;
+            padding: 11px 14px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 13px;
+            margin-bottom: 12px;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s;
+        }
+        .bd-input:focus { border-color: rgba(99,102,241,0.6); }
+        .bd-input::placeholder { color: rgba(255,255,255,0.25); }
+        .bd-bid-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #6366f1, #06b6d4, #6366f1);
+            background-size: 200% auto;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+        .bd-bid-btn:hover { background-position: right center; transform: translateY(-1px); }
+        .bd-deadline { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--t3); }
+        .bd-deadline-tag { font-size: 11px; font-weight: 700; color: var(--cyan); background: rgba(34,211,238,0.1); border: 1px solid rgba(34,211,238,0.22); padding: 2px 8px; border-radius: 6px; }
+
+        .bd-footer { text-align: center; padding: 20px; font-size: 12px; color: var(--t3); border-top: 1px solid rgba(255,255,255,0.06); margin-top: 30px; }
+
+        @media (max-width: 640px) {
+            .bd-stats { grid-template-columns: 1fr; }
+            .bd-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Header -->
+    <header class="bd-header">
+        <div class="bd-header-left">
+            <span class="bd-live"><span class="live-dot"></span> Live on Ethereum</span>
+            <span class="bd-title">🏗️ Springfield High School</span>
+            <span class="bd-subtitle">Building Construction Tender</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+            <span id="bidderInfo" style="font-size:13px;color:var(--cyan);font-weight:600;"></span>
+            <button class="connect-btn ripple-btn" onclick="connectWallet()">
+                <span class="mm-fox">🦊</span> Connect Wallet
+            </button>
+            <button onclick="bidderLogout()" style="padding:10px 18px;background:linear-gradient(135deg,rgba(244,63,94,.88),rgba(139,92,246,.88));border:1px solid rgba(244,63,94,.3);border-radius:12px;color:#fff;font-size:13px;font-weight:600;cursor:pointer;">🚪 Logout</button>
+        </div>
+    </header>
+
+    <div class="bd-body">
+
+        <!-- Hero -->
+        <div class="bd-hero">
+            <h2>You can Bid here</h2>
+            <div class="bd-stats">
+                <div class="bd-stat-card">
+                    <span class="bd-stat-icon">💎</span>
+                    <div>
+                        <div class="bd-stat-value" id="bd-highestBid">0 ETH</div>
+                        <div class="bd-stat-label">Highest Bid</div>
+                    </div>
+                </div>
+                <div class="bd-stat-card">
+                    <span class="bd-stat-icon">👥</span>
+                    <div>
+                        <div class="bd-stat-value" id="bd-activeBidders">0</div>
+                        <div class="bd-stat-label">Active Bidders</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Authorised Voters -->
+        <div class="bd-voters-card">
+            <div class="bd-voters-head">
+                <span class="bd-voters-title">Authorised Voters</span>
+                <span class="bd-voters-badge">3 Members</span>
+            </div>
+            <div class="bd-voter-list">
+                <div class="bd-voter-item">
+                    <div class="bd-voter-avatar">🧑‍💼</div>
+                    <div>
+                        <div class="bd-voter-role">Procurement Officer</div>
+                        <div class="bd-voter-addr">0x5B38Da6a…dC4</div>
+                    </div>
+                </div>
+                <div class="bd-voter-item">
+                    <div class="bd-voter-avatar">👩‍💼</div>
+                    <div>
+                        <div class="bd-voter-role">Finance Director</div>
+                        <div class="bd-voter-addr">0xAb8483F6…b2</div>
+                    </div>
+                </div>
+                <div class="bd-voter-item">
+                    <div class="bd-voter-avatar">🧑‍⚖️</div>
+                    <div>
+                        <div class="bd-voter-role">Legal Advisor</div>
+                        <div class="bd-voter-addr">0x4B20993B…db</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bid Distribution + Place Bid -->
+        <div class="bd-grid">
+
+            <!-- Bid Distribution -->
+            <div class="bd-card">
+                <div class="bd-card-title">💰 Bid Distribution</div>
+                <div class="bd-pie-wrap">
+                    <svg class="bd-pie-svg" viewBox="0 0 100 100" id="bdPieChart">
+                        <circle cx="50" cy="50" r="40" fill="#6366f1" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+                        <path d="M 50 50 L 50 10 A 40 40 0 0 1 85 65 Z" fill="#8b5cf6" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+                        <path d="M 50 50 L 85 65 A 40 40 0 0 1 30 80 Z" fill="#ec4899" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+                    </svg>
+                    <div class="bd-legend" id="bdLegend">
+                        <div class="bd-legend-item"><span class="bd-dot" style="background:#6366f1"></span>No bids yet</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Place Bid -->
+            <div class="bd-card">
+                <div class="bd-card-title">💰 Place Bid</div>
+                <p class="bd-bid-desc">Bid as your address. Revise any time before deadline.</p>
+                <input type="text" id="bidAmount" class="bd-input" placeholder="Amount in ETH (e.g. 0.5)">
+                <button class="bd-bid-btn ripple-btn" onclick="placeBid()">💎 Place / Update Bid</button>
+                <div class="bd-deadline">
+                    <span>⏱ Deadline:</span>
+                    <span class="bd-deadline-tag" id="bdCountdown">Connect wallet</span>
+                </div>
+            </div>
+
+        </div>
+
+        <footer class="bd-footer">
+            ⛓️ DecentralTender &nbsp;·&nbsp; Springfield High School &nbsp;·&nbsp; MIT License
+        </footer>
+    </div>
+
+    <script>
+        // Particle canvas
+        !function () {
+            const cv = document.getElementById('particleCanvas'), cx = cv.getContext('2d');
+            let W, H, P = [];
+            const COLS = ['#6366f1','#8b5cf6','#22d3ee','#ec4899','#10b981','#f59e0b'];
+            function resize() { W = cv.width = innerWidth; H = cv.height = innerHeight; }
+            addEventListener('resize', resize); resize();
+            function mk() { return { x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.6+.4, vx: (Math.random()-.5)*.28, vy: (Math.random()-.5)*.28, c: COLS[Math.random()*6|0], a: Math.random()*.45+.12, p: Math.random()*Math.PI*2 }; }
+            for (let i = 0; i < 80; i++) P.push(mk());
+            function draw() {
+                cx.clearRect(0,0,W,H);
+                P.forEach(p => {
+                    p.x+=p.vx; p.y+=p.vy; p.p+=.018;
+                    if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+                    cx.beginPath(); cx.arc(p.x,p.y,p.r+Math.sin(p.p)*.35,0,Math.PI*2);
+                    cx.fillStyle=p.c; cx.globalAlpha=p.a*(0.7+.3*Math.sin(p.p)); cx.fill();
+                }); cx.globalAlpha=1; requestAnimationFrame(draw);
+            }
+            draw();
+        }();
+
+        // Show bidder name
+        const bidder = JSON.parse(localStorage.getItem('currentBidder') || '{}');
+        if (bidder.username) {
+            document.getElementById('bidderInfo').textContent = '👤 ' + bidder.username;
+        }
+
+        // Countdown
+        function updateCountdown() {
+            const el = document.getElementById('bdCountdown'); if (!el) return;
+            if (typeof contract === 'undefined' || !contract) return;
+            contract.biddingEndTime().then(t => {
+                const end = t.toNumber();
+                if (!end) { el.textContent = 'Not started'; return; }
+                const d = end - Math.floor(Date.now()/1e3);
+                if (d <= 0) { el.textContent = '⛔ Closed'; el.style.color = '#f43f5e'; return; }
+                const h = Math.floor(d/3600), m = Math.floor((d%3600)/60), s = d%60;
+                el.textContent = `${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
+            }).catch(()=>{});
+        }
+        setInterval(updateCountdown, 1000);
+
+        function bidderLogout() {
+            localStorage.removeItem('currentBidder');
+            window.location.href = 'bidder_login.html';
+        }
+
+        // Ripple
+        document.addEventListener('click', e => {
+            const b = e.target.closest('.ripple-btn'); if (!b) return;
+            const r = document.createElement('span'); r.className = 'ripple-el';
+            const rect = b.getBoundingClientRect(), s = Math.max(rect.width, rect.height)*2;
+            r.style.cssText = `width:${s}px;height:${s}px;left:${e.clientX-rect.left-s/2}px;top:${e.clientY-rect.top-s/2}px`;
+            b.appendChild(r); setTimeout(()=>r.remove(), 700);
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

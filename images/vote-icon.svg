@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <radialGradient id="bg3" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#0d1a30"/>
+      <stop offset="100%" stop-color="#060818"/>
+    </radialGradient>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#22d3ee" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.7"/>
+    </linearGradient>
+    <filter id="glow3">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="200" height="200" fill="url(#bg3)" rx="24"/>
+
+  <!-- pulse ring -->
+  <circle cx="100" cy="100" r="72" fill="none" stroke="#22d3ee" stroke-width="1.5" opacity="0.2">
+    <animate attributeName="r"       values="72;80;72"   dur="2.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.2;0;0.2"  dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- hexagon shield -->
+  <polygon points="100,32 152,66 152,134 100,168 48,134 48,66"
+           fill="url(#shieldGrad)" opacity="0.18"/>
+  <polygon points="100,32 152,66 152,134 100,168 48,134 48,66"
+           fill="none" stroke="#22d3ee" stroke-width="2" opacity="0.6" filter="url(#glow3)">
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+  </polygon>
+
+  <!-- checkmark -->
+  <polyline points="68,100 90,122 132,78"
+            fill="none" stroke="#22d3ee" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"
+            filter="url(#glow3)">
+    <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+  </polyline>
+
+  <!-- sparkles -->
+  <circle cx="45"  cy="55"  r="2" fill="#22d3ee" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0;0.8" dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="158" cy="60"  r="1.5" fill="#6366f1" opacity="0.7">
+    <animate attributeName="opacity" values="0.7;0;0.7" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="160" cy="150" r="2" fill="#10b981" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0;0.8" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
+</svg>

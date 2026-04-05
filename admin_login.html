@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Springfield High School</title>
+    <link rel="icon" href="images/school-logo.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: #0b071e;
+            background-image: 
+                radial-gradient(ellipse at bottom, rgba(162, 28, 175, 0.4) 0%, rgba(15, 23, 42, 0) 60%),
+                radial-gradient(ellipse at bottom left, rgba(37, 99, 235, 0.5) 0%, rgba(15, 23, 42, 0) 50%);
+            position: relative;
+            overflow-y: auto;
+            color: #fff;
+        }
+
+        /* Starry background effect */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 440px;
+            padding: 40px;
+            background: rgba(20, 15, 45, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 16px;
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.15), 
+                        inset 0 0 20px rgba(139, 92, 246, 0.1);
+            z-index: 10;
+            position: relative;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .login-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 16px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(99,102,241,0.6), rgba(168,85,247,0.6), transparent);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .login-header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Top link icon styling */
+        .header-icon {
+            color: #38bdf8;
+        }
+
+        /* Border bottom below the header */
+        .header-separator {
+            height: 1px;
+            background: rgba(139, 92, 246, 0.2);
+            margin: 20px 0 25px 0;
+            width: 100%;
+        }
+
+        .login-header p {
+            font-size: 0.85rem;
+            color: #9ca3af;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        /* Separate container for label and 'forgot password' */
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .label-row label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #e2e8f0;
+        }
+
+        .label-row a {
+            color: #6366f1;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        .label-row a:hover {
+            color: #818cf8;
+            text-decoration: underline;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            color: #818cf8;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 14px 12px 40px;
+            background: rgba(30, 27, 75, 0.4);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: #6b7280;
+        }
+
+        .form-control:focus {
+            border-color: rgba(167, 139, 250, 0.8);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+            background: rgba(30, 27, 75, 0.6);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #6366f1, #06b6d4, #6366f1);
+            background-size: 200% auto;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .submit-btn:hover {
+            background-position: right center;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
+        }
+
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <div class="login-header">
+            <h1>
+                <span class="header-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                    </svg>
+                </span>
+                Springfield High School
+            </h1>
+            <p>Securely access the building construction tender system</p>
+        </div>
+        
+        <div class="header-separator"></div>
+
+        <form id="loginForm" class="auth-form" onsubmit="handleAdminLogin(event)" autocomplete="off">
+            <div class="form-group">
+                <div class="label-row">
+                    <label for="email">Email Address</label>
+                </div>
+                <div class="input-wrapper">
+                    <span class="input-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </span>
+                    <input type="email" id="email" class="form-control" placeholder="Email Address" autocomplete="off" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="label-row">
+                    <label for="password">Password</label>
+                </div>
+                <div class="input-wrapper">
+                    <span class="input-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </span>
+                    <input type="password" id="password" class="form-control" placeholder="Password" autocomplete="new-password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Login</button>
+        </form>
+
+    </div>
+    
+    <!-- Error Toast -->
+    <div id="errorToast" style="display: none; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(220, 38, 38, 0.9); color: white; padding: 12px 24px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; z-index: 100;">
+        Invalid email or password.
+    </div>
+
+    <!-- Success Toast -->
+    <div id="successToast" style="display: none; position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(16, 185, 129, 0.9); color: white; padding: 12px 24px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; z-index: 100;">
+        Login successful! Redirecting...
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        // Three authorized users
+        const authorizedUsers = [
+            { email: 'admin1@gmail.com', password: 'admin1123', name: 'Procurement Officer', role: 'user1' },
+            { email: 'admin2@gmail.com', password: 'admin2123', name: 'Finance Director',    role: 'user2' },
+            { email: 'admin3@gmail.com', password: 'admin3123', name: 'Legal Advisor',       role: 'user3' }
+        ];
+
+        function handleAdminLogin(event) {
+            event.preventDefault();
+            const email    = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const errorToast   = document.getElementById('errorToast');
+            const successToast = document.getElementById('successToast');
+
+            const user = authorizedUsers.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                localStorage.setItem('currentAdmin', JSON.stringify({ email: user.email, name: user.name, role: user.role }));
+                successToast.style.display = 'block';
+                setTimeout(() => { window.location.href = 'admin_dashboard.html'; }, 1500);
+            } else {
+                errorToast.style.display = 'block';
+                const pInput = document.getElementById('password');
+                const eInput = document.getElementById('email');
+                pInput.style.borderColor = 'rgba(239,68,68,0.8)';
+                eInput.style.borderColor = 'rgba(239,68,68,0.8)';
+                setTimeout(() => {
+                    errorToast.style.display = 'none';
+                    pInput.style.borderColor = 'rgba(139,92,246,0.3)';
+                    eInput.style.borderColor = 'rgba(139,92,246,0.3)';
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>

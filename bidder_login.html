@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bidder Login - Springfield High School</title>
+    <link rel="icon" href="images/school-logo.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=3">
+</head>
+<body class="dt-body">
+    <div class="dt-login-box">
+        <div class="dt-login-header">
+            <h1>
+                <span class="dt-header-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                    </svg>
+                </span>
+                Springfield High School
+            </h1>
+            <p>Bidder Login</p>
+            <p style="font-size:0.75rem;color:#64748b;margin-bottom:0;">Securely access the tender system</p>
+        </div>
+        
+        <div class="dt-header-separator"></div>
+
+        <form id="loginForm" onsubmit="handleBidderLogin(event)" autocomplete="off">
+            <div class="dt-form-group">
+                <div class="dt-label-row">
+                    <div>
+                        <svg class="dt-label-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <label for="email">Email Address</label>
+                    </div>
+                </div>
+                <div class="dt-input-wrapper">
+                    <span class="dt-input-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </span>
+                    <input type="email" id="email" class="dt-form-control" placeholder="Email address" autocomplete="off" required>
+                </div>
+            </div>
+
+            <div class="dt-form-group">
+                <div class="dt-label-row">
+                    <div>
+                        <svg class="dt-label-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                        <label for="password">Password</label>
+                    </div>
+                </div>
+                <div class="dt-input-wrapper">
+                    <span class="dt-input-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </span>
+                    <input type="password" id="password" class="dt-form-control" placeholder="Password" autocomplete="new-password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="dt-submit-btn">Login</button>
+
+            <div style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: #b3c0d1;">
+                Don't have an account? <a href="bidder_register.html" style="color:#7dd3fc; text-decoration:none;">Create an account</a>
+            </div>
+        </form>
+    </div>
+
+    <div id="successToast" class="dt-toast dt-toast-success" style="display:none;">Login successful! Redirecting...</div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.7); backdrop-filter:blur(4px);">
+        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(20,15,45,0.98); border:1px solid rgba(244,63,94,0.5); border-radius:16px; padding:32px 28px; max-width:380px; width:90%; text-align:center; box-shadow:0 0 40px rgba(244,63,94,0.25);">
+            <div style="font-size:42px; margin-bottom:12px;">🔐</div>
+            <h3 style="color:#f43f5e; font-size:1.1rem; font-weight:700; margin-bottom:10px;">Invalid Credentials</h3>
+            <p style="color:#b3c0d1; font-size:0.875rem; line-height:1.6; margin-bottom:18px;">Invalid email or password. Please try again or contact the Springfield High School admin team.</p>
+            <div style="background:rgba(99,102,241,0.1); border:1px solid rgba(99,102,241,0.25); border-radius:10px; padding:14px; margin-bottom:20px;">
+                <p style="color:#818cf8; font-size:0.8rem; font-weight:600; margin-bottom:6px;">📞 Contact Admin</p>
+                <p style="color:#e2e8f0; font-size:0.95rem; font-weight:700;">+1 (555) 123-4567</p>
+                <p style="color:#7dd3fc; font-size:0.8rem; margin-top:4px;">admin@springfieldhigh.edu</p>
+            </div>
+            <button onclick="document.getElementById('errorModal').style.display='none'" style="width:100%; padding:11px; background:linear-gradient(135deg,#6366f1,#8b5cf6); border:none; border-radius:8px; color:#fff; font-size:0.9rem; font-weight:600; cursor:pointer;">Close</button>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        // Override to ensure this page always uses bidder login logic
+        document.getElementById('loginForm').onsubmit = function(event) {
+            event.preventDefault();
+            const emailStr = document.getElementById('email').value.trim();
+            const passStr = document.getElementById('password').value;
+            const storedBidders = JSON.parse(localStorage.getItem('bidders') || '[]');
+            const validUser = storedBidders.find(b => b.email === emailStr && b.password === passStr);
+            if (validUser) {
+                localStorage.setItem('currentBidder', JSON.stringify(validUser));
+                document.getElementById('successToast').style.display = 'block';
+                setTimeout(() => { window.location.href = 'bidder_dashboard.html'; }, 1500);
+            } else {
+                document.getElementById('errorModal').style.display = 'block';
+                document.getElementById('email').style.border = '1px solid rgba(239,68,68,0.8)';
+                document.getElementById('password').style.border = '1px solid rgba(239,68,68,0.8)';
+                setTimeout(() => {
+                    document.getElementById('email').style.border = '';
+                    document.getElementById('password').style.border = '';
+                }, 3000);
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#1a1040"/>
+      <stop offset="100%" stop-color="#060818"/>
+    </radialGradient>
+    <radialGradient id="coinGrad" cx="40%" cy="35%" r="60%">
+      <stop offset="0%"   stop-color="#f0c060"/>
+      <stop offset="40%"  stop-color="#c084fc"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+  </defs>
+
+  <!-- bg -->
+  <rect width="200" height="200" fill="url(#bg)" rx="24"/>
+
+  <!-- outer glow ring -->
+  <circle cx="100" cy="100" r="70" fill="none" stroke="#8b5cf6" stroke-width="1" opacity="0.3">
+    <animate attributeName="r" values="70;76;70" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="100" cy="100" r="70" fill="none" stroke="#22d3ee" stroke-width="0.5" stroke-dasharray="6 4" opacity="0.4">
+    <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="12s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- coin glow shadow -->
+  <ellipse cx="100" cy="115" rx="50" ry="12" fill="#8b5cf6" opacity="0.3" filter="url(#softglow)"/>
+
+  <!-- coin body -->
+  <ellipse cx="100" cy="97" rx="52" ry="54" fill="url(#coinGrad)" filter="url(#glow)">
+    <animate attributeName="ry" values="54;50;54" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="cy" values="97;93;97" dur="4s" repeatCount="indefinite"/>
+  </ellipse>
+
+  <!-- coin edge highlight -->
+  <ellipse cx="100" cy="97" rx="52" ry="54" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2">
+    <animate attributeName="ry" values="54;50;54" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="cy" values="97;93;97" dur="4s" repeatCount="indefinite"/>
+  </ellipse>
+
+  <!-- ETH diamond symbol -->
+  <g filter="url(#glow)">
+    <polygon points="100,62 118,93 100,103 82,93" fill="rgba(255,255,255,0.95)">
+      <animate attributeName="points"
+        values="100,62 118,93 100,103 82,93;100,58 118,89 100,99 82,89;100,62 118,93 100,103 82,93"
+        dur="4s" repeatCount="indefinite"/>
+    </polygon>
+    <polygon points="100,107 118,93 100,132 82,93" fill="rgba(255,255,255,0.6)">
+      <animate attributeName="points"
+        values="100,107 118,93 100,132 82,93;100,103 118,89 100,128 82,89;100,107 118,93 100,132 82,93"
+        dur="4s" repeatCount="indefinite"/>
+    </polygon>
+  </g>
+
+  <!-- sparkles -->
+  <circle cx="50"  cy="50"  r="2" fill="#22d3ee" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0;0.8" dur="2s"   repeatCount="indefinite"/>
+    <animate attributeName="r"       values="2;4;2"     dur="2s"   repeatCount="indefinite"/>
+  </circle>
+  <circle cx="150" cy="40"  r="1.5" fill="#f0c060" opacity="0.7">
+    <animate attributeName="opacity" values="0.7;0;0.7" dur="2.5s" repeatCount="indefinite"/>
+    <animate attributeName="r"       values="1.5;3;1.5" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="162" cy="160" r="2"   fill="#ec4899" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0;0.8" dur="3s"   repeatCount="indefinite"/>
+    <animate attributeName="r"       values="2;4;2"     dur="3s"   repeatCount="indefinite"/>
+  </circle>
+  <circle cx="42"  cy="150" r="1.5" fill="#6366f1" opacity="0.7">
+    <animate attributeName="opacity" values="0.7;0;0.7" dur="1.8s" repeatCount="indefinite"/>
+    <animate attributeName="r"       values="1.5;3;1.5" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
+</svg>
