@@ -1,12 +1,9 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 let provider;
 let signer;
 let contract;
 let userAddress = null;
 
-const contractAddress = process.env.con_Address
+const contractAddress = "0x0BA9aE1Ee413768A4fe2B7539CC5A551969D43E0";
 
 const abi = [
 {
